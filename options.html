@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Snack → GitHub — Configuração</title>
+    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-mark">S→G</div>
+      <div>
+        <h1>Configuração</h1>
+        <p class="subtitle">Snack <span class="arrow">→</span> GitHub</p>
+      </div>
+    </header>
+
+    <section class="win">
+      <div class="win-bar">
+        <span class="wdot wdot-a"></span>
+        <span class="wdot wdot-b"></span>
+        <span class="wdot wdot-c"></span>
+        <h2>Token do GitHub</h2>
+      </div>
+      <div class="win-body">
+        <p class="hint">
+          Crie um token de acesso pessoal do GitHub com permissão de escrita nos
+          repositórios onde você quer enviar os projetos do Snack:
+        </p>
+        <ol class="steps">
+          <li>
+            No GitHub, vá em <em>Settings → Developer settings → Personal access
+            tokens → Fine-grained tokens</em>.
+          </li>
+          <li>Crie um token novo e selecione o(s) repositório(s) desejado(s).</li>
+          <li>
+            Em <em>Permissions → Repository permissions</em>, dê acesso de
+            <strong>Read and write</strong> a <code>Contents</code>.
+          </li>
+          <li>Copie o token gerado e cole abaixo.</li>
+        </ol>
+
+        <label for="token">Token de acesso pessoal</label>
+        <input id="token" type="password" placeholder="github_pat_..." autocomplete="off" />
+
+        <div class="row">
+          <button id="save" class="btn-primary" type="button"><span>Salvar</span></button>
+          <span id="status"></span>
+        </div>
+        <p class="foot-note">Fica salvo só neste navegador, em armazenamento local da extensão.</p>
+      </div>
+    </section>
+
+    <script src="options.js"></script>
+  </body>
+</html>
