@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Snack → GitHub</title>
+    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-mark">S→G</div>
+      <div>
+        <h1>Snack <span class="arrow">→</span> GitHub</h1>
+        <p class="subtitle">Do Expo Snack direto pro repo</p>
+      </div>
+    </header>
+
+    <section class="win">
+      <div class="win-bar">
+        <span class="wdot wdot-a"></span>
+        <span class="wdot wdot-b"></span>
+        <span class="wdot wdot-c"></span>
+        <h2>1. Zip do Snack</h2>
+      </div>
+      <div class="win-body">
+        <p class="hint">
+          No Snack, clique em <strong>Commitar</strong> (do lado do Expo Docs) ou em
+          <strong>Download as zip</strong>. O download começa normal no navegador; esta
+          extensão detecta ele sozinha.
+        </p>
+        <div class="status-row">
+          <span id="capture-dot" class="dot dot-off"></span>
+          <span id="capture-text">Nenhum zip detectado ainda.</span>
+        </div>
+        <div class="row">
+          <button id="recheck-capture" class="btn-flat" type="button">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path
+                d="M13.5 8a5.5 5.5 0 1 1-1.6-3.89M13.5 2.5v3.4h-3.4"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span>Atualizar lista</span>
+          </button>
+          <button id="grant-network" class="btn-flat" type="button" hidden>
+            Conceder acesso de rede
+          </button>
+        </div>
+
+        <button id="download-fresh" class="btn-flat btn-flat-wide" type="button">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M8 2.8v9.4M4.2 8.5 8 12.3l3.8-3.8"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path d="M3 13.6h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+          <span>Baixar novo zip do Snack</span>
+        </button>
+
+        <p class="hint hint-tight">Ou escolha na lista de downloads recentes:</p>
+        <div id="zip-list" class="zip-list"></div>
+      </div>
+    </section>
+
+    <section class="win">
+      <div class="win-bar">
+        <span class="wdot wdot-a"></span>
+        <span class="wdot wdot-b"></span>
+        <span class="wdot wdot-c"></span>
+        <h2>2. Destino no GitHub</h2>
+      </div>
+      <div class="win-body">
+        <div class="status-row">
+          <span id="token-dot" class="dot dot-off"></span>
+          <span id="token-text">Token não configurado.</span>
+          <button id="open-options" class="btn-link" type="button">Configurar token</button>
+        </div>
+
+        <div class="field-grid">
+          <label>
+            Dono / organização
+            <input id="owner" type="text" placeholder="joaovictorcascardo" autocomplete="off" />
+          </label>
+          <label>
+            Repositório
+            <input id="repo" type="text" placeholder="meu-projeto-react-native" autocomplete="off" />
+          </label>
+        </div>
+        <div class="field-grid">
+          <label>
+            Branch
+            <input id="branch" type="text" placeholder="main" autocomplete="off" />
+          </label>
+          <label>
+            Pasta no repo
+            <input id="subpath" type="text" list="subpath-history" placeholder="exercicio02" autocomplete="off" />
+            <datalist id="subpath-history"></datalist>
+          </label>
+        </div>
+        <label>
+          Mensagem de commit
+          <input id="commit-message" type="text" autocomplete="off" />
+        </label>
+
+      </div>
+    </section>
+
+    <button id="push" class="btn-primary" type="button">
+      <span>Commitar</span>
+    </button>
+
+    <section id="log-section" class="win" hidden>
+      <div class="win-bar win-bar-log">
+        <span class="wdot wdot-a"></span>
+        <span class="wdot wdot-b"></span>
+        <span class="wdot wdot-c"></span>
+        <h2>Progresso</h2>
+      </div>
+      <div class="win-body">
+        <pre id="log"></pre>
+        <p id="result" hidden></p>
+      </div>
+    </section>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
