@@ -100,8 +100,20 @@
           </label>
           <label>
             Pasta no repo
-            <input id="subpath" type="text" list="subpath-history" placeholder="exercicio02" autocomplete="off" />
-            <datalist id="subpath-history"></datalist>
+            <div class="input-with-btn">
+              <input id="subpath" type="text" list="subpath-history" placeholder="exercicio02" autocomplete="off" />
+              <datalist id="subpath-history"></datalist>
+              <button id="browse-folders" class="icon-btn" type="button" title="Escolher pasta no repo">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M2 4.3c0-.7.6-1.3 1.3-1.3h3l1.3 1.6h5.1c.7 0 1.3.6 1.3 1.3v6.8c0 .7-.6 1.3-1.3 1.3H3.3C2.6 14 2 13.4 2 12.7V4.3z"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
           </label>
         </div>
         <label>
@@ -128,6 +140,33 @@
         <p id="result" hidden></p>
       </div>
     </section>
+
+    <div id="folder-overlay" class="overlay" hidden>
+      <section class="win overlay-win">
+        <div class="win-bar">
+          <span class="wdot wdot-a"></span>
+          <span class="wdot wdot-b"></span>
+          <span class="wdot wdot-c"></span>
+          <h2>Escolher pasta</h2>
+        </div>
+        <div class="win-body">
+          <div id="folder-breadcrumb" class="breadcrumb"></div>
+
+          <div id="folder-status" class="hint"></div>
+          <div id="folder-list" class="folder-list"></div>
+
+          <div class="new-folder-row">
+            <input id="new-folder-name" type="text" placeholder="nome-da-pasta-nova" autocomplete="off" />
+            <button id="new-folder-add" class="btn-flat" type="button">Criar</button>
+          </div>
+
+          <div class="row overlay-actions">
+            <button id="folder-cancel" class="btn-flat" type="button">Cancelar</button>
+            <button id="folder-use" class="btn-primary overlay-use" type="button"><span>Usar esta pasta</span></button>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <script src="popup.js"></script>
   </body>
