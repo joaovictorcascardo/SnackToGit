@@ -16,6 +16,8 @@ const els = {
   commitMessage: $("commit-message"),
   downloadFresh: $("download-fresh"),
   zipList: $("zip-list"),
+  destinoToggle: $("destino-toggle"),
+  destinoBody: $("destino-body"),
   browseFolders: $("browse-folders"),
   overlay: $("folder-overlay"),
   folderBreadcrumb: $("folder-breadcrumb"),
@@ -221,6 +223,22 @@ function renderSubpathHistory() {
     els.subpathHistory.appendChild(opt);
   }
 }
+
+function applyDestinoCollapsed(collapsed) {
+  els.destinoBody.hidden = collapsed;
+  els.destinoToggle.classList.toggle("collapsed", collapsed);
+}
+
+async function loadDestinoCollapsed() {
+  const { destinoCollapsed } = await chrome.storage.local.get("destinoCollapsed");
+  applyDestinoCollapsed(!!destinoCollapsed);
+}
+
+els.destinoToggle.addEventListener("click", async () => {
+  const collapsed = !els.destinoBody.hidden;
+  applyDestinoCollapsed(collapsed);
+  await chrome.storage.local.set({ destinoCollapsed: collapsed });
+});
 
 async function loadState() {
   const { githubToken, defaultRepo, history: storedHistory, draftForm } = await chrome.storage.local.get([
@@ -508,3 +526,4 @@ for (const field of [els.owner, els.repo, els.branch, els.subpath, els.commitMes
 loadState();
 refreshCapture();
 refreshNetworkPermission();
+loadDestinoCollapsed();

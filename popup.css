@@ -103,6 +103,28 @@ h1 .arrow {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #fff;
+  flex: 1;
+}
+
+.chevron-btn {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: none;
+  color: #fff;
+  padding: 0;
+}
+
+.chevron-btn svg {
+  transition: transform 0.15s ease;
+}
+
+.chevron-btn.collapsed svg {
+  transform: rotate(-90deg);
 }
 
 .win-body {
