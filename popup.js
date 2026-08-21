@@ -16,6 +16,8 @@ const els = {
   commitMessage: $("commit-message"),
   downloadFresh: $("download-fresh"),
   zipList: $("zip-list"),
+  zipToggle: $("zip-toggle"),
+  zipBody: $("zip-body"),
   destinoToggle: $("destino-toggle"),
   destinoBody: $("destino-body"),
   browseFolders: $("browse-folders"),
@@ -224,21 +226,21 @@ function renderSubpathHistory() {
   }
 }
 
-function applyDestinoCollapsed(collapsed) {
-  els.destinoBody.hidden = collapsed;
-  els.destinoToggle.classList.toggle("collapsed", collapsed);
+function setupCollapsible(toggleEl, bodyEl, storageKey) {
+  const apply = (collapsed) => {
+    bodyEl.hidden = collapsed;
+    toggleEl.classList.toggle("collapsed", collapsed);
+  };
+  chrome.storage.local.get(storageKey, (data) => apply(!!data[storageKey]));
+  toggleEl.addEventListener("click", async () => {
+    const collapsed = !bodyEl.hidden;
+    apply(collapsed);
+    await chrome.storage.local.set({ [storageKey]: collapsed });
+  });
 }
 
-async function loadDestinoCollapsed() {
-  const { destinoCollapsed } = await chrome.storage.local.get("destinoCollapsed");
-  applyDestinoCollapsed(!!destinoCollapsed);
-}
-
-els.destinoToggle.addEventListener("click", async () => {
-  const collapsed = !els.destinoBody.hidden;
-  applyDestinoCollapsed(collapsed);
-  await chrome.storage.local.set({ destinoCollapsed: collapsed });
-});
+setupCollapsible(els.zipToggle, els.zipBody, "zipCollapsed");
+setupCollapsible(els.destinoToggle, els.destinoBody, "destinoCollapsed");
 
 async function loadState() {
   const { githubToken, defaultRepo, history: storedHistory, draftForm } = await chrome.storage.local.get([
@@ -526,4 +528,3 @@ for (const field of [els.owner, els.repo, els.branch, els.subpath, els.commitMes
 loadState();
 refreshCapture();
 refreshNetworkPermission();
-loadDestinoCollapsed();
