@@ -1,4 +1,5 @@
-html {
+html,
+body {
   border-radius: 18px;
   overflow: hidden;
 }
