@@ -1,0 +1,239 @@
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/poppins-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/poppins-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/poppins-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/poppins-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("../assets/fonts/poppins-800.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../assets/fonts/poppins-900.woff2") format("woff2");
+}
+
+:root {
+  --ink: #14170f;
+  --paper: #fffdf6;
+  --bg: #eef1e2;
+  --moss: #6b8e3f;
+  --moss-dark: #445823;
+  --moss-light: #d9e6bd;
+  --butter: #f6c945;
+  --red: #e2513f;
+  --green: #3fa15e;
+  --muted: #6b6f5e;
+  --line: var(--ink);
+  --shadow-color: var(--ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  scrollbar-color: var(--moss) var(--bg);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--moss);
+  border: 2.5px solid var(--bg);
+  border-radius: 9px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--moss-dark);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--bg);
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+}
+
+.hero-mark {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--moss);
+  color: #fff;
+  font-weight: 800;
+  border: 2.5px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  transform: rotate(-4deg);
+}
+
+h1 {
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 2px 0 0;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.subtitle .arrow,
+h1 .arrow {
+  color: var(--moss-dark);
+}
+
+.win {
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  overflow: hidden;
+}
+
+.win-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--moss);
+  border-bottom: 2.5px solid var(--ink);
+}
+
+.wdot {
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  flex: none;
+}
+
+.wdot-a {
+  background: var(--red);
+}
+
+.wdot-b {
+  background: var(--butter);
+}
+
+.wdot-c {
+  background: var(--green);
+}
+
+.win-bar h2,
+.win-title {
+  margin: 0 0 0 6px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  flex: 1;
+}
+
+.hint {
+  color: #3d3f32;
+  line-height: 1.6;
+}
+
+label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #4a4c3f;
+}
+
+input[type="text"],
+input[type="password"] {
+  border: 2px solid var(--ink);
+  font-family: inherit;
+  font-weight: 500;
+  background: var(--paper);
+  color: var(--ink);
+  transition: box-shadow 0.1s ease, transform 0.1s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  box-shadow: 3px 3px 0 var(--moss);
+  transform: translate(-1px, -1px);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid var(--ink);
+  background: var(--moss);
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.08s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+.row {
+  display: flex;
+}
