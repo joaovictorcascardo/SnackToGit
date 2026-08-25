@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Snack → GitHub — Configuração</title>
-    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="../shared/theme.css" />
     <link rel="stylesheet" href="options.css" />
   </head>
   <body>
@@ -32,10 +32,21 @@
             No GitHub, vá em <em>Settings → Developer settings → Personal access
             tokens → Fine-grained tokens</em>.
           </li>
-          <li>Crie um token novo e selecione o(s) repositório(s) desejado(s).</li>
+          <li>
+            Crie um token novo. Se você só vai commitar em repositórios que já
+            existem, pode selecionar só eles em <em>Repository access</em>. Se
+            também quiser usar o botão <strong>Criar repositório novo</strong>
+            dentro do popup, escolha <em>All repositories</em> — um repo que
+            ainda não existe não pode ser selecionado individualmente.
+          </li>
           <li>
             Em <em>Permissions → Repository permissions</em>, dê acesso de
             <strong>Read and write</strong> a <code>Contents</code>.
+          </li>
+          <li>
+            Só para o botão de criar repositório: ainda em <em>Repository
+            permissions</em>, dê acesso de <strong>Read and write</strong> a
+            <code>Administration</code> também.
           </li>
           <li>Copie o token gerado e cole abaixo.</li>
         </ol>
