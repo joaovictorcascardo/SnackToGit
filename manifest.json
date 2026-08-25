@@ -4,12 +4,12 @@
   "version": "0.1.0",
   "description": "Envia o código de um projeto do Expo Snack direto para uma pasta de um repositório no GitHub, sem baixar/extrair/commitar na mão.",
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "popup/popup.html",
     "default_title": "Snack → GitHub"
   },
-  "options_page": "options.html",
+  "options_page": "options/options.html",
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background/background.js"
   },
   "permissions": ["storage", "downloads"],
   "host_permissions": [
@@ -19,13 +19,16 @@
     "https://*.exp.host/*",
     "https://exp.host/*",
     "https://*.expo.io/*",
-    "https://expo.io/*"
+    "https://expo.io/*",
+    "https://registry.npmjs.org/*",
+    "https://raw.githubusercontent.com/*"
   ],
   "optional_host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
       "matches": ["https://snack.expo.dev/*"],
-      "js": ["content.js"],
+      "js": ["content/content.js"],
+      "css": ["content/content.css"],
       "run_at": "document_idle"
     }
   ]
