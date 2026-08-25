@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Snack → GitHub</title>
-    <link rel="stylesheet" href="theme.css" />
+    <link rel="stylesheet" href="../shared/theme.css" />
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
@@ -62,7 +62,7 @@
           <span>Baixar novo zip do Snack</span>
         </button>
 
-        <p class="hint hint-tight">Ou escolha na lista de downloads recentes:</p>
+        <p class="hint hint-tight">Ou escolha um já baixado:</p>
         <div id="zip-list" class="zip-list"></div>
       </div>
     </section>
@@ -94,6 +94,27 @@
             <input id="repo" type="text" placeholder="meu-projeto-react-native" autocomplete="off" />
           </label>
         </div>
+
+        <div class="row row-tight">
+          <button id="create-repo-toggle" class="btn-link" type="button">+ Criar repositório novo</button>
+        </div>
+
+        <div id="create-repo-panel" class="create-repo-panel" hidden>
+          <label>
+            Descrição (opcional)
+            <input id="new-repo-desc" type="text" placeholder="Exercício de React Native" autocomplete="off" />
+          </label>
+          <label class="checkbox-row">
+            <input id="new-repo-public" type="checkbox" checked />
+            Público
+          </label>
+          <div class="row create-repo-actions">
+            <button id="new-repo-cancel" class="btn-flat" type="button">Cancelar</button>
+            <button id="new-repo-create" class="btn-flat btn-flat-accent" type="button">Criar repositório</button>
+          </div>
+          <p id="new-repo-status" class="hint create-repo-status"></p>
+        </div>
+
         <div class="field-grid">
           <label>
             Branch
@@ -169,6 +190,6 @@
       </section>
     </div>
 
-    <script src="popup.js"></script>
+    <script type="module" src="popup.js"></script>
   </body>
 </html>
