@@ -60,6 +60,11 @@
   box-sizing: border-box;
 }
 
+/* A class with `display` set otherwise beats the bare `hidden` attribute. */
+[hidden] {
+  display: none !important;
+}
+
 body {
   font-family: "Poppins", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   color: var(--ink);
