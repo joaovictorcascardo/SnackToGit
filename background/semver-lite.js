@@ -123,7 +123,10 @@ function svSatisfiesAndClause(version, clause) {
   if (hyphen) {
     return svCompareVersions(version, hyphen[1]) >= 0 && svCompareVersions(version, hyphen[2]) <= 0;
   }
-  const comparators = clause.split(/\s+/).filter(Boolean);
+  // "> = 1.2.3" / ">= 1.2.3" — glue an operator to the version that follows it
+  // so the whitespace split below doesn't break the comparator into two tokens.
+  const glued = clause.replace(/(>=|<=|>|<|~|\^|=)\s+/g, "$1");
+  const comparators = glued.split(/\s+/).filter(Boolean);
   return comparators.every((c) => svSatisfiesComparator(version, c));
 }
 
