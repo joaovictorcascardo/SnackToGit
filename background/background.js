@@ -160,7 +160,7 @@ const MESSAGE_HANDLERS = {
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   const handler = msg && MESSAGE_HANDLERS[msg.type];
   if (!handler) return;
-  handler(msg.payload, sendResponse);
+  handler(msg.payload || {}, sendResponse);
   return true;
 });
 

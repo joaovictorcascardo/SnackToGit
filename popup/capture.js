@@ -44,7 +44,7 @@ function renderZipList(items) {
 
 async function selectZip(item) {
   const capture = { id: item.id, url: item.url, filename: item.filename, time: item.time, state: "complete" };
-  await chrome.runtime.sendMessage({ type: "SET_CAPTURE", capture });
+  await chrome.runtime.sendMessage({ type: "SET_CAPTURE", payload: { capture } });
   currentCapture = capture;
   renderCapture();
   renderZipList(lastZipItems);
