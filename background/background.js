@@ -31,7 +31,10 @@ function safeHostname(url) {
 async function rememberCapture(item) {
   const capture = {
     id: item.id,
-    url: item.finalUrl || item.url,
+    // Keep the original download URL (api.expo.dev/v2/snack/download/...), not
+    // finalUrl: finalUrl is the storage URL it redirected to, and that one is
+    // signed and expires, so an older entry can no longer be re-fetched.
+    url: item.url || item.finalUrl,
     filename: item.filename || "",
     time: Date.now(),
     state: item.state
@@ -110,7 +113,8 @@ function handleListRecentZips(_payload, sendResponse) {
       .slice(0, 6)
       .map((it) => ({
         id: it.id,
-        url: it.finalUrl || it.url,
+        // original URL, not the expiring signed finalUrl (see rememberCapture)
+        url: it.url || it.finalUrl,
         filename: it.filename || "",
         time: it.endTime ? Date.parse(it.endTime) : it.startTime ? Date.parse(it.startTime) : Date.now()
       }));
