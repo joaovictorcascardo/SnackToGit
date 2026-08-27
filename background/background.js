@@ -179,7 +179,9 @@ chrome.runtime.onConnect.addListener((port) => {
 
     try {
       log("Baixando zip do Snack...");
-      const res = await fetch(zipUrl);
+      // Snack's download endpoint (api.expo.dev/v2/snack/download/...) needs the
+      // expo.dev session cookie for unsaved/private snacks; send it.
+      const res = await fetch(zipUrl, { credentials: "include" });
       if (!res.ok) {
         throw new Error(
           `Não consegui baixar o zip (HTTP ${res.status}). Se a permissão de rede ainda não foi concedida, use o botão "Conceder acesso de rede" no popup.`
