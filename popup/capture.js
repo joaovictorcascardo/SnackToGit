@@ -31,21 +31,30 @@ function renderZipList(items) {
   for (const item of items) {
     const btn = document.createElement("button");
     btn.type = "button";
-    const isSelected =
-      currentCapture &&
-      (currentCapture.id != null ? currentCapture.id === item.id : currentCapture.url === item.url);
+    const isSelected = sameZip(currentCapture, item);
     btn.className = "zip-item" + (isSelected ? " selected" : "");
+    if (isSelected) btn.title = "Clique de novo para desmarcar";
     const name = (item.filename || "").split(/[\\/]/).pop() || item.url;
     btn.innerHTML = `${name}<span class="zip-time">${formatWhen(item.time)}</span>`;
-    btn.addEventListener("click", () => selectZip(item));
+    btn.addEventListener("click", () => toggleZip(item));
     els.zipList.appendChild(btn);
   }
 }
 
-async function selectZip(item) {
-  const capture = { id: item.id, url: item.url, filename: item.filename, time: item.time, state: "complete" };
-  await chrome.runtime.sendMessage({ type: "SET_CAPTURE", payload: { capture } });
-  currentCapture = capture;
+function sameZip(capture, item) {
+  if (!capture) return false;
+  return capture.id != null ? capture.id === item.id : capture.url === item.url;
+}
+
+async function toggleZip(item) {
+  if (sameZip(currentCapture, item)) {
+    await chrome.runtime.sendMessage({ type: "CLEAR_CAPTURE" });
+    currentCapture = null;
+  } else {
+    const capture = { id: item.id, url: item.url, filename: item.filename, time: item.time, state: "complete" };
+    await chrome.runtime.sendMessage({ type: "SET_CAPTURE", payload: { capture } });
+    currentCapture = capture;
+  }
   renderCapture();
   renderZipList(lastZipItems);
 }
