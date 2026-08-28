@@ -19,7 +19,7 @@ function renderResult(commitSha, htmlUrl, owner, repo, branch, subpath) {
   commitLink.textContent = commitSha.slice(0, 7);
   els.result.append(commitLink, " — ");
 
-  const treePath = [owner, repo, "tree", branch, ...(subpath ? [subpath] : [])]
+  const treePath = [owner, repo, "tree", branch, ...(subpath ? subpath.split("/") : [])]
     .map(encodeURIComponent)
     .join("/");
   const treeLink = document.createElement("a");
