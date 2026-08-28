@@ -169,6 +169,17 @@ async function readBranchState(token, owner, repo, branch) {
   return { ref, parentSha, baseTreeSha, tree: existingTree.tree || [], truncated: !!existingTree.truncated };
 }
 
+// Files under `prefix` that the incoming Snack export no longer contains, as
+// tree entries that delete them. With no prefix (pushing to the repo root) this
+// returns nothing on purpose: there is no "folder" to mirror, so we never delete
+// unrelated files that already live in the repo.
+function computeStaleDeletions(tree, newPaths, prefix) {
+  if (!prefix) return [];
+  return tree
+    .filter((e) => e.type === "blob" && e.path.startsWith(prefix) && !newPaths.has(e.path))
+    .map((e) => ({ path: e.path, mode: "100644", type: "blob", sha: null }));
+}
+
 async function pushFilesAsCommit({ token, owner, repo, branch, message, files, syncPrefix }, onLog) {
   const log = onLog || (() => {});
 
@@ -227,6 +238,9 @@ async function pushFilesAsCommit({ token, owner, repo, branch, message, files, s
 
   const newPaths = new Set(files.map((f) => f.path));
   const prefix = syncPrefix ? (syncPrefix.endsWith("/") ? syncPrefix : syncPrefix + "/") : "";
+  if (!prefix) {
+    log("Sem pasta de destino: os arquivos do Snack vão pra raiz e nada que já existe no repo é removido.");
+  }
 
   const maxAttempts = 3;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -239,12 +253,10 @@ async function pushFilesAsCommit({ token, owner, repo, branch, message, files, s
 
     const entries = [...baseEntries];
     if (baseTreeSha) {
-      const stale = tree.filter((e) => e.type === "blob" && e.path.startsWith(prefix) && !newPaths.has(e.path));
+      const stale = computeStaleDeletions(tree, newPaths, prefix);
       if (stale.length > 0) {
         log(`Removendo ${stale.length} arquivo(s) que não existem mais no Snack...`);
-        for (const e of stale) {
-          entries.push({ path: e.path, mode: "100644", type: "blob", sha: null });
-        }
+        entries.push(...stale);
       }
     }
 
