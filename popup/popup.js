@@ -11,7 +11,6 @@ setupCollapsible(els.destinoToggle, els.destinoBody, "destinoCollapsed");
 initDestination();
 initFolderBrowser();
 
-els.recheckCapture.addEventListener("click", refreshCapture);
 els.downloadFresh.addEventListener("click", handleDownloadFresh);
 els.grantNetwork.addEventListener("click", async () => {
   const granted = await chrome.permissions.request({ origins: ["<all_urls>"] });

@@ -3,7 +3,6 @@ export const $ = (id) => document.getElementById(id);
 export const els = {
   captureDot: $("capture-dot"),
   captureText: $("capture-text"),
-  recheckCapture: $("recheck-capture"),
   grantNetwork: $("grant-network"),
   tokenDot: $("token-dot"),
   tokenText: $("token-text"),
