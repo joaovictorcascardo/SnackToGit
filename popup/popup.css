@@ -515,9 +515,16 @@ input[type="text"] {
 
 .folder-row {
   display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.folder-open {
+  flex: 1;
+  min-width: 0;
+  display: flex;
   align-items: center;
   gap: 8px;
-  width: 100%;
   text-align: left;
   padding: 8px 10px;
   border: 2px solid var(--ink);
@@ -530,15 +537,123 @@ input[type="text"] {
   transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.08s ease;
 }
 
-.folder-row:hover {
+.folder-open:hover {
   background: var(--moss-light);
   transform: translate(-1px, -1px);
   box-shadow: 3px 3px 0 var(--ink);
 }
 
-.folder-row svg {
+.folder-open span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.folder-open svg {
   flex: none;
   color: var(--moss-dark);
+}
+
+.folder-tag {
+  flex: none;
+  margin-left: auto;
+  font-style: normal;
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--moss-dark);
+  background: var(--butter);
+  border: 1.5px solid var(--ink);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+
+.folder-del {
+  flex: none;
+  width: 32px;
+  border: 2px solid var(--ink);
+  border-radius: 9px;
+  background: var(--paper);
+  color: var(--red);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.08s ease;
+}
+
+.folder-del:hover {
+  background: #ffe4e0;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.folder-del:active {
+  transform: translate(1px, 1px);
+  box-shadow: 0.5px 0.5px 0 var(--ink);
+}
+
+.folder-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 2px dashed var(--muted);
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.folder-file:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.folder-file span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.folder-file svg {
+  flex: none;
+}
+
+.folder-confirm {
+  border: 2px solid var(--red);
+  border-radius: 9px;
+  padding: 9px 11px;
+  background: #ffe4e0;
+}
+
+.folder-confirm p {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.folder-confirm-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.folder-confirm-actions .btn-flat {
+  flex: 1;
+  justify-content: center;
+}
+
+.folder-confirm-del {
+  background: var(--red);
+  color: #fff;
+}
+
+.folder-confirm-del:hover {
+  background: #c8402f;
 }
 
 .new-folder-row {

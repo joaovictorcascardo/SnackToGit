@@ -140,6 +140,13 @@ function handleListRepoFolders(payload, sendResponse) {
     .catch((err) => sendResponse({ ok: false, error: err.message || String(err) }));
 }
 
+function handleDeleteRepoFolder(payload, sendResponse) {
+  const { token, owner, repo, branch, folder } = payload;
+  deleteRepoFolder(token, owner, repo, branch || "main", folder)
+    .then((res) => sendResponse({ ok: true, ...res }))
+    .catch((err) => sendResponse({ ok: false, error: err.message || String(err) }));
+}
+
 function handleOpenPopup(_payload, sendResponse) {
   chrome.action
     .openPopup()
@@ -154,6 +161,7 @@ const MESSAGE_HANDLERS = {
   SET_CAPTURE: handleSetCapture,
   CREATE_REPO: handleCreateRepo,
   LIST_REPO_FOLDERS: handleListRepoFolders,
+  DELETE_REPO_FOLDER: handleDeleteRepoFolder,
   OPEN_POPUP: handleOpenPopup
 };
 

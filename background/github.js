@@ -149,12 +149,14 @@ async function listRepoFolders(token, owner, repo, branch) {
   await getRepo(token, owner, repo);
   const ref = await getRef(token, owner, repo, branch);
   if (!ref) {
-    return { folders: [], truncated: false };
+    return { folders: [], files: [], truncated: false };
   }
   const commit = await getCommit(token, owner, repo, ref.object.sha);
   const tree = await getTreeRecursive(token, owner, repo, commit.tree.sha);
-  const folders = (tree.tree || []).filter((e) => e.type === "tree").map((e) => e.path);
-  return { folders, truncated: !!tree.truncated };
+  const entries = tree.tree || [];
+  const folders = entries.filter((e) => e.type === "tree").map((e) => e.path);
+  const files = entries.filter((e) => e.type === "blob").map((e) => e.path);
+  return { folders, files, truncated: !!tree.truncated };
 }
 
 async function readBranchState(token, owner, repo, branch) {
@@ -279,6 +281,36 @@ async function pushFilesAsCommit({ token, owner, repo, branch, message, files, s
         log(`A branch "${branch}" mudou enquanto eu montava o commit. Tentando de novo (${attempt}/${maxAttempts})...`);
         continue;
       }
+      throw err;
+    }
+  }
+}
+
+// Delete a folder (every blob under `folder/`) from the branch in one commit.
+async function deleteRepoFolder(token, owner, repo, branch, folder) {
+  const clean = String(folder || "")
+    .split("/")
+    .map((s) => s.trim())
+    .filter((s) => s && s !== "." && s !== "..")
+    .join("/");
+  if (!clean) throw new Error("Pasta inválida.");
+  const prefix = clean + "/";
+
+  let state = await readBranchState(token, owner, repo, branch);
+  if (!state.ref) throw new Error(`Branch "${branch}" não encontrada.`);
+
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    if (attempt > 1) state = await readBranchState(token, owner, repo, branch);
+    const stale = computeStaleDeletions(state.tree, new Set(), prefix);
+    if (stale.length === 0) return { removed: 0, commitSha: null };
+
+    const treeSha = await createTree(token, owner, repo, state.baseTreeSha, stale);
+    const commitSha = await createCommit(token, owner, repo, `Remove ${prefix}`, treeSha, state.parentSha);
+    try {
+      await upsertRef(token, owner, repo, branch, commitSha, true);
+      return { removed: stale.length, commitSha };
+    } catch (err) {
+      if ((err.status === 422 || err.status === 409) && attempt < 3) continue;
       throw err;
     }
   }
