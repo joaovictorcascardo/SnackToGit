@@ -59,7 +59,14 @@ async function getAuthenticatedUser(token) {
   return ghRequest(token, "GET", "/user");
 }
 
-async function createRepo(token, { owner, name, description, isPrivate }) {
+function utf8ToBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
+
+async function createRepo(token, { owner, name, description, isPrivate, readme }) {
   const me = await getAuthenticatedUser(token);
   const isPersonal = !!me.login && me.login.toLowerCase() === (owner || "").trim().toLowerCase();
 
@@ -68,11 +75,22 @@ async function createRepo(token, { owner, name, description, isPrivate }) {
 
   const path = isPersonal ? "/user/repos" : `/orgs/${encodeURIComponent(owner)}/repos`;
   const res = await ghRequest(token, "POST", path, body);
-  return {
+  const out = {
     fullName: res.full_name,
     htmlUrl: res.html_url,
     defaultBranch: res.default_branch || "main"
   };
+
+  if (readme != null && String(readme).trim() !== "") {
+    await ghRequest(token, "PUT", `${repoPath(owner, name)}/contents/README.md`, {
+      message: "first commit",
+      content: utf8ToBase64(String(readme)),
+      branch: out.defaultBranch
+    });
+    out.readmeCommitted = true;
+  }
+
+  return out;
 }
 
 async function getRef(token, owner, repo, branch) {

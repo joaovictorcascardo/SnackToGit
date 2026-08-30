@@ -1,5 +1,9 @@
 import { els } from "./dom.js";
-import { saveDraft } from "./state.js";
+import { saveDraft, scheduleDraftSave } from "./state.js";
+import { defaultReadme } from "./format.js";
+import { handlePush } from "./push.js";
+
+let readmeTouched = false;
 
 export function renderToken(token) {
   const has = !!token;
@@ -12,8 +16,25 @@ function setRepoStatus(text, isError) {
   els.newRepoStatus.classList.toggle("is-error", !!isError);
 }
 
+function firstCommitMode() {
+  const checked = document.querySelector('input[name="first-commit"]:checked');
+  return checked ? checked.value : "both";
+}
+
+function applyModeUi() {
+  els.newRepoReadmeField.hidden = firstCommitMode() === "files";
+}
+
+function refreshReadmeDraft() {
+  if (!readmeTouched) els.newRepoReadme.value = defaultReadme(els.repo.value);
+}
+
 function openCreateRepoPanel() {
   setRepoStatus("", false);
+  els.newRepoName.value = els.repo.value;
+  readmeTouched = !!els.newRepoReadme.value.trim();
+  refreshReadmeDraft();
+  applyModeUi();
   els.createRepoPanel.hidden = false;
 }
 
@@ -37,6 +58,9 @@ async function handleCreateRepo() {
     return;
   }
 
+  const mode = firstCommitMode();
+  const readme = mode === "files" ? null : els.newRepoReadme.value;
+
   els.newRepoCreate.disabled = true;
   setRepoStatus("Criando repositório...", false);
 
@@ -47,7 +71,8 @@ async function handleCreateRepo() {
       owner,
       repo,
       description: els.newRepoDesc.value.trim(),
-      isPrivate: !els.newRepoPublic.checked
+      isPrivate: !els.newRepoPublic.checked,
+      readme
     }
   });
 
@@ -59,8 +84,17 @@ async function handleCreateRepo() {
   }
 
   els.branch.value = res.defaultBranch || "main";
-  setRepoStatus(`Repositório ${res.fullName} criado.`, false);
   saveDraft();
+
+  if (mode === "both") {
+    setRepoStatus(`Repositório ${res.fullName} criado. Enviando os arquivos do Snack...`, false);
+    closeCreateRepoPanel();
+    await handlePush();
+    return;
+  }
+
+  const done = mode === "readme" ? `Repositório ${res.fullName} criado com README.` : `Repositório ${res.fullName} criado.`;
+  setRepoStatus(done, false);
   setTimeout(closeCreateRepoPanel, 1400);
 }
 
@@ -71,4 +105,21 @@ export function initDestination() {
   });
   els.newRepoCancel.addEventListener("click", closeCreateRepoPanel);
   els.newRepoCreate.addEventListener("click", handleCreateRepo);
+
+  // The panel's name field and the "Repositório" field above mirror each other.
+  els.newRepoName.addEventListener("input", () => {
+    els.repo.value = els.newRepoName.value;
+    refreshReadmeDraft();
+    scheduleDraftSave();
+  });
+  els.repo.addEventListener("input", () => {
+    if (!els.createRepoPanel.hidden) els.newRepoName.value = els.repo.value;
+  });
+
+  els.newRepoReadme.addEventListener("input", () => {
+    readmeTouched = true;
+  });
+  for (const radio of document.querySelectorAll('input[name="first-commit"]')) {
+    radio.addEventListener("change", applyModeUi);
+  }
 }

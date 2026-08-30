@@ -87,6 +87,10 @@
 
         <div id="create-repo-panel" class="create-repo-panel" hidden>
           <label>
+            Nome do repositório
+            <input id="new-repo-name" type="text" placeholder="meu-projeto-react-native" autocomplete="off" />
+          </label>
+          <label>
             Descrição (opcional)
             <input id="new-repo-desc" type="text" placeholder="Exercício de React Native" autocomplete="off" />
           </label>
@@ -94,6 +98,28 @@
             <input id="new-repo-public" type="checkbox" checked />
             Público
           </label>
+
+          <div class="create-repo-mode">
+            <span class="create-repo-mode-title">Primeiro commit</span>
+            <label class="radio-row">
+              <input type="radio" name="first-commit" value="both" checked />
+              README + arquivos do Snack
+            </label>
+            <label class="radio-row">
+              <input type="radio" name="first-commit" value="files" />
+              Só os arquivos do Snack
+            </label>
+            <label class="radio-row">
+              <input type="radio" name="first-commit" value="readme" />
+              Só um README
+            </label>
+          </div>
+
+          <label id="new-repo-readme-field">
+            Conteúdo do README
+            <textarea id="new-repo-readme" rows="4"></textarea>
+          </label>
+
           <div class="row create-repo-actions">
             <button id="new-repo-cancel" class="btn-flat" type="button">Cancelar</button>
             <button id="new-repo-create" class="btn-flat btn-flat-accent" type="button">Criar repositório</button>

@@ -12,6 +12,12 @@ export function defaultCommitMessage(subpath) {
   return `Snack: ${label}`;
 }
 
+export function defaultReadme(repoName) {
+  const title = repoName && repoName.trim() ? repoName.trim() : "Atividades de React Native";
+  const date = new Date().toLocaleDateString("pt-BR");
+  return `# ${title}\n\nCriado em ${date}\n`;
+}
+
 export function formatWhen(ts) {
   if (!ts) return "";
   const diffMin = Math.round((Date.now() - ts) / 60000);

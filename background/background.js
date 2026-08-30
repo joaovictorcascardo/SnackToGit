@@ -127,8 +127,8 @@ function handleSetCapture(payload, sendResponse) {
 }
 
 function handleCreateRepo(payload, sendResponse) {
-  const { token, owner, repo, description, isPrivate } = payload;
-  createRepo(token, { owner, name: repo, description, isPrivate })
+  const { token, owner, repo, description, isPrivate, readme } = payload;
+  createRepo(token, { owner, name: repo, description, isPrivate, readme })
     .then((res) => sendResponse({ ok: true, ...res }))
     .catch((err) => sendResponse({ ok: false, error: err.message || String(err) }));
 }
