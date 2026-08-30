@@ -20,7 +20,7 @@ While editing on snack.expo.dev, holding Tab and pressing S triggers Snack's own
 
 1. Open chrome://extensions and enable Developer mode.
 2. Click Load unpacked and select this folder.
-3. Open the extension options and paste a GitHub personal access token with Contents read and write permission for the repositories you plan to use. If you also want to use the "Criar repositório novo" button, the token needs Repository access set to All repositories plus Administration read and write, since a repo that doesn't exist yet can't be selected individually.
+3. Open the extension options and paste a GitHub fine-grained personal access token. Set Repository access to All repositories ("This applies to all current and future repositories you own. Also includes public repositories (read-only)."). That is the simplest choice, it covers repos you create later, and it is the only one that lets the "Criar repositório novo" button work, since a repo that does not exist yet cannot be picked from the list. Give the token Contents read and write, plus Administration read and write if you want the create-repo button.
 
 ## Usage
 

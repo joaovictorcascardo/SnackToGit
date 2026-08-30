@@ -16,3 +16,35 @@ async function saveToken() {
 
 saveBtn.addEventListener("click", saveToken);
 loadToken();
+
+// Click a tutorial screenshot to open it full screen.
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+
+function openLightbox(src, alt) {
+  lightboxImg.src = src;
+  lightboxImg.alt = alt || "";
+  lightbox.hidden = false;
+}
+
+function closeLightbox() {
+  lightbox.hidden = true;
+  lightboxImg.removeAttribute("src");
+}
+
+for (const img of document.querySelectorAll(".steps-visual img")) {
+  img.tabIndex = 0;
+  img.title = "Clique para ampliar";
+  img.addEventListener("click", () => openLightbox(img.src, img.alt));
+  img.addEventListener("keydown", (ev) => {
+    if (ev.key === "Enter" || ev.key === " ") {
+      ev.preventDefault();
+      openLightbox(img.src, img.alt);
+    }
+  });
+}
+
+lightbox.addEventListener("click", closeLightbox);
+document.addEventListener("keydown", (ev) => {
+  if (ev.key === "Escape" && !lightbox.hidden) closeLightbox();
+});

@@ -2,7 +2,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <title>Snack → GitHub — Configuração</title>
+    <title>Snack → GitHub · Configuração</title>
     <link rel="stylesheet" href="../shared/theme.css" />
     <link rel="stylesheet" href="options.css" />
   </head>
@@ -24,31 +24,72 @@
       </div>
       <div class="win-body">
         <p class="hint">
-          Crie um token de acesso pessoal do GitHub com permissão de escrita nos
-          repositórios onde você quer enviar os projetos do Snack:
+          A extensão precisa de um token de acesso pessoal do GitHub pra
+          conseguir commitar nos seus repositórios. Leva um minuto:
         </p>
-        <ol class="steps">
+        <ol class="steps steps-visual">
           <li>
-            No GitHub, vá em <em>Settings → Developer settings → Personal access
-            tokens → Fine-grained tokens</em>.
+            <p>
+              No GitHub, clique na sua foto de perfil no canto superior direito e
+              vá em <strong>Settings</strong>.
+            </p>
+            <img
+              src="../assets/setup/01-settings.png"
+              alt="Menu do perfil do GitHub com a opção Settings destacada"
+            />
           </li>
           <li>
-            Crie um token novo. Se você só vai commitar em repositórios que já
-            existem, pode selecionar só eles em <em>Repository access</em>. Se
-            também quiser usar o botão <strong>Criar repositório novo</strong>
-            dentro do popup, escolha <em>All repositories</em> — um repo que
-            ainda não existe não pode ser selecionado individualmente.
+            <p>
+              Na barra lateral das configurações, role até o fim e clique em
+              <strong>Developer settings</strong>.
+            </p>
+            <img
+              src="../assets/setup/02-developer-settings.png"
+              alt="Barra lateral de Settings com Developer settings destacado"
+            />
           </li>
           <li>
-            Em <em>Permissions → Repository permissions</em>, dê acesso de
-            <strong>Read and write</strong> a <code>Contents</code>.
+            <p>
+              Abra <strong>Personal access tokens</strong>, depois
+              <strong>Fine-grained tokens</strong>, e clique em
+              <strong>Generate new token</strong>.
+            </p>
+            <img
+              src="../assets/setup/03-generate-token.png"
+              alt="Página de Fine-grained tokens com o botão Generate new token destacado"
+            />
           </li>
           <li>
-            Só para o botão de criar repositório: ainda em <em>Repository
-            permissions</em>, dê acesso de <strong>Read and write</strong> a
-            <code>Administration</code> também.
+            <p>
+              Dê um nome pro token. Em <strong>Repository access</strong>, marque
+              <strong>All repositories</strong> (a descrição diz "This applies to
+              all current and future repositories you own. Also includes public
+              repositories (read-only)."). É a opção mais simples e a única que
+              deixa o botão <strong>Criar repositório novo</strong> da extensão
+              funcionar, já que um repo que ainda não existe não aparece na lista.
+            </p>
+            <img
+              src="../assets/setup/04-all-repositories.png"
+              alt="Formulário do token com o nome preenchido e All repositories selecionado"
+            />
           </li>
-          <li>Copie o token gerado e cole abaixo.</li>
+          <li>
+            <p>
+              Em <strong>Permissions</strong>, clique em
+              <strong>Add permissions</strong> e coloque
+              <strong>Read and write</strong> em <code>Contents</code> (obrigatório
+              pra commitar) e em <code>Administration</code> (só pro botão de criar
+              repositório). O <code>Metadata</code> o GitHub adiciona sozinho.
+              Clique em <strong>Generate token</strong>.
+            </p>
+            <img
+              src="../assets/setup/05-permissions.png"
+              alt="Seção Permissions com Administration e Contents em Read and write"
+            />
+          </li>
+          <li>
+            <p>Copie o token gerado e cole no campo abaixo.</p>
+          </li>
         </ol>
 
         <label for="token">Token de acesso pessoal</label>
@@ -61,6 +102,10 @@
         <p class="foot-note">Fica salvo só neste navegador, em armazenamento local da extensão.</p>
       </div>
     </section>
+
+    <div id="lightbox" class="lightbox" hidden>
+      <img id="lightbox-img" alt="" />
+    </div>
 
     <script src="options.js"></script>
   </body>
